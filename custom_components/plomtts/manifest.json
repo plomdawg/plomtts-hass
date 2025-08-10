@@ -1,0 +1,18 @@
+{
+    "domain": "plomtts",
+    "name": "PlomTTS",
+    "version": "1.0.0",
+    "codeowners": [
+        "@plomdawg"
+    ],
+    "config_flow": true,
+    "documentation": "https://github.com/plomdawg/plomtts-hass",
+    "integration_type": "service",
+    "iot_class": "local_polling",
+    "loggers": [
+        "plomtts"
+    ],
+    "requirements": [
+        "plomtts-client>=0.1.0"
+    ]
+}

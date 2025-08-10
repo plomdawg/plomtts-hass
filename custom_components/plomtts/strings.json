@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "server_url": "Server URL"
+        },
+        "data_description": {
+          "server_url": "The URL of your PlomTTS server (e.g., http://localhost:8420)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to PlomTTS server",
+      "no_voices": "No voices found on the server",
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "voice": "Voice",
+          "configure_voice": "Configure advanced voice settings"
+        },
+        "data_description": {
+          "voice": "Voice to use for the TTS.",
+          "configure_voice": "Configure advanced voice generation parameters."
+        }
+      },
+      "voice_settings": {
+        "data": {
+          "max_new_tokens": "Max New Tokens",
+          "chunk_length": "Chunk Length",
+          "top_p": "Top P",
+          "repetition_penalty": "Repetition Penalty",
+          "temperature": "Temperature",
+          "seed": "Seed"
+        },
+        "data_description": {
+          "max_new_tokens": "Maximum new tokens to generate (0 for automatic).",
+          "chunk_length": "Length of text chunks for processing.",
+          "top_p": "Top-p sampling parameter for nucleus sampling.",
+          "repetition_penalty": "Penalty for repeating tokens.",
+          "temperature": "Sampling temperature for randomness.",
+          "seed": "Random seed for reproducible output (0 for random)."
+        }
+      }
+    }
+  }
+}
+
