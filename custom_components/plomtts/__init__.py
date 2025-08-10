@@ -25,7 +25,7 @@ class PlomTTSData:
     client: TTSClient
 
 
-PlomTTSConfigEntry = ConfigEntry[PlomTTSData]
+type PlomTTSConfigEntry = ConfigEntry[PlomTTSData]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: PlomTTSConfigEntry) -> bool:

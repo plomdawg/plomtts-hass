@@ -28,6 +28,8 @@ ensure_newline_before_comments = true
 [tool.mypy]
 python_version = "3.12"
 
+disable_error_code = ["attr-defined"]
+
 [[tool.mypy.overrides]]
 module = [
     "homeassistant.*",
