@@ -1,0 +1,7 @@
+# Development dependencies
+
+# linting
+black
+isort
+mypy
+pylint

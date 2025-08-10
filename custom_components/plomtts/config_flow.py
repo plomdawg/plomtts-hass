@@ -60,10 +60,11 @@ async def get_voices(hass: HomeAssistant, server_url: str) -> dict[str, str]:
     return voices_dict
 
 
-class PlomTTSConfigFlow(ConfigFlow, domain=DOMAIN):
+class PlomTTSConfigFlow(ConfigFlow):
     """Handle a config flow for PlomTTS text-to-speech."""
 
     VERSION = 1
+    domain = DOMAIN
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
