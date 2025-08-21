@@ -64,7 +64,7 @@ class PlomTTSConfigFlow(ConfigFlow):
     """Handle a config flow for PlomTTS text-to-speech."""
 
     VERSION = 1
-    domain = DOMAIN
+    DOMAIN = DOMAIN
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
