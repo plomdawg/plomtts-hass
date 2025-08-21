@@ -6,7 +6,8 @@ import logging
 from typing import Any
 
 import voluptuous as vol
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
+from homeassistant import config_entries
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.selector import (
     SelectOptionDict,
@@ -60,11 +61,10 @@ async def get_voices(hass: HomeAssistant, server_url: str) -> dict[str, str]:
     return voices_dict
 
 
-class PlomTTSConfigFlow(ConfigFlow):
+class PlomTTSConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for PlomTTS text-to-speech."""
 
     VERSION = 1
-    DOMAIN = DOMAIN
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -97,12 +97,12 @@ class PlomTTSConfigFlow(ConfigFlow):
     @staticmethod
     def async_get_options_flow(
         config_entry: PlomTTSConfigEntry,
-    ) -> OptionsFlow:
+    ) -> config_entries.OptionsFlow:
         """Create the options flow."""
         return PlomTTSOptionsFlow(config_entry)
 
 
-class PlomTTSOptionsFlow(OptionsFlow):
+class PlomTTSOptionsFlow(config_entries.OptionsFlow):
     """PlomTTS options flow."""
 
     def __init__(self, config_entry: PlomTTSConfigEntry) -> None:
