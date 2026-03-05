@@ -187,7 +187,7 @@ class PlomTTSTTSEntity(TextToSpeechEntity):
 
         try:
             audio_bytes = await self.hass.async_add_executor_job(
-                self._client.generate_speech, message, voice_id, **tts_params
+                lambda: self._client.generate_speech(message, voice_id, **tts_params)
             )
             _LOGGER.debug(
                 "✅ Successfully generated %d bytes of audio", len(audio_bytes)
