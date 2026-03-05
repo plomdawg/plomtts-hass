@@ -132,6 +132,23 @@ data:
     format: "mp3"
 ```
 
+### Random Voice Selection
+
+The integration exposes a `sensor.plomtts_voices` sensor with all available voice IDs as an attribute. Use Home Assistant's `random` Jinja filter to pick a different voice on every TTS call:
+
+```yaml
+service: tts.speak
+target:
+  entity_id: media_player.living_room_speaker
+data:
+  message: "Hello from a surprise voice!"
+  entity_id: tts.plomtts
+  options:
+    voice: "{{ state_attr('sensor.plomtts_voices', 'voice_ids') | random }}"
+```
+
+Because the voice is resolved to a specific name before the call is made, Home Assistant caches each `(message, voice)` pair independently — so repeating the same message will use a different voice each time.
+
 ### Automation Example
 
 ```yaml
