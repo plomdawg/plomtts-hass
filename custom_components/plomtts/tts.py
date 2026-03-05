@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from collections.abc import Mapping
 from typing import Any
 
@@ -163,9 +164,13 @@ class PlomTTSTTSEntity(TextToSpeechEntity):
         _LOGGER.debug("🎤 Getting TTS audio for: %s", message)
         _LOGGER.debug("🔧 Options: %s", options)
 
-        voice_id = options.get(ATTR_VOICE, self._default_voice_id)
+        voice_id = options.get(ATTR_VOICE)
         if not voice_id:
-            raise HomeAssistantError("No voice selected")
+            if self._voices:
+                voice_id = random.choice(self._voices).voice_id
+                _LOGGER.debug("🎲 No voice specified, randomly selected: %s", voice_id)
+            else:
+                raise HomeAssistantError("No voice selected and no voices available")
 
         # Build TTS parameters from options, falling back to defaults
         tts_params = {
