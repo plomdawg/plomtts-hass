@@ -9,13 +9,13 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from plomtts import TTSClient, TTSConnectionError, TTSError
+from plomtts import TTSClient, TTSConnectionError, TTSError, VoiceResponse
 
 from .const import CONF_SERVER_URL, DEFAULT_TIMEOUT
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.TTS]
+PLATFORMS: list[Platform] = [Platform.TTS, Platform.SENSOR]
 
 
 @dataclass(kw_only=True, slots=True)
@@ -23,6 +23,7 @@ class PlomTTSData:
     """PlomTTS data type."""
 
     client: TTSClient
+    voices: list[VoiceResponse]
 
 
 type PlomTTSConfigEntry = ConfigEntry[PlomTTSData]
@@ -50,7 +51,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: PlomTTSConfigEntry) -> b
             )
             raise ConfigEntryNotReady("Failed to connect to PlomTTS server") from err
 
-        entry.runtime_data = PlomTTSData(client=client)
+        # Fetch voices once at setup time — shared across platforms
+        try:
+            voice_response = await hass.async_add_executor_job(client.list_voices)
+            voices = voice_response.voices
+            _LOGGER.debug("✅ Loaded %d voices from PlomTTS server", len(voices))
+        except (TTSConnectionError, TTSError) as err:
+            _LOGGER.error("❌ Failed to fetch voices from PlomTTS server: %s", err)
+            raise ConfigEntryNotReady("Failed to fetch voices from PlomTTS server") from err
+
+        entry.runtime_data = PlomTTSData(client=client, voices=voices)
         await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
         _LOGGER.info("✅ PlomTTS integration setup completed for %s", entry.title)

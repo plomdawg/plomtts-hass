@@ -69,14 +69,7 @@ async def async_setup_entry(
 ) -> None:
     """Set up PlomTTS tts platform via config entry."""
     client = config_entry.runtime_data.client
-
-    # Get voices from server
-    try:
-        voice_response = await hass.async_add_executor_job(client.list_voices)
-        voices = voice_response.voices
-    except TTSError as err:
-        _LOGGER.error("Failed to get voices from PlomTTS server: %s", err)
-        return
+    voices = config_entry.runtime_data.voices
 
     default_voice_id = config_entry.options.get(CONF_VOICE)
     if not default_voice_id and voices:
