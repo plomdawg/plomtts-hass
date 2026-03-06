@@ -194,4 +194,4 @@ class PlomTTSTTSEntity(TextToSpeechEntity):
             _LOGGER.error("❌ Error during TTS processing: %s", exc)
             raise HomeAssistantError(f"TTS generation failed: {exc}") from exc
 
-        return "mp3", audio_bytes
+        return "wav", audio_bytes
